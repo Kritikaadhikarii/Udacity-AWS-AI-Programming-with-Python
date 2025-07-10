@@ -1,15 +1,31 @@
 "use client";
 import React from "react";
-import {
-  ArrowLeftFromLine,
-  ArrowRightFromLine,
-} from "lucide-react";
+import { ArrowLeftFromLine, ArrowRightFromLine } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
 
 const Navbar = () => {
   const [isClicked, setIsClicked] = React.useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handleClick = () => {
     setIsClicked((prev) => !prev);
+  };
+
+  const handleCourseClick = (course: string) => {
+    const slug =
+      course === "AI Programming with Python"
+        ? "intro"
+        : course.toLowerCase().replace(/ /g, ""); 
+    router.push(`/courses/${slug}`);
+  };
+
+  const isActiveRoute = (course: string) => {
+    const slug =
+      course === "AI Programming with Python"
+        ? "intro"
+        : course.toLowerCase().replace(/ /g, "");
+    return pathname === `/courses/${slug}`;
   };
 
   return (
@@ -33,7 +49,7 @@ const Navbar = () => {
           )}
         </button>
       </div>
-      
+
       {!isClicked && (
         <div className="overflow-y-auto">
           {[
@@ -51,7 +67,12 @@ const Navbar = () => {
           ].map((course, index) => (
             <p
               key={index}
-              className="text-sm font-light p-4 hover:bg-amber-50 hover:text-amber-600 whitespace-nowrap"
+              onClick={() => handleCourseClick(course)}
+              className={`text-sm font-light p-4 whitespace-nowrap cursor-pointer ${
+                isActiveRoute(course)
+                  ? "bg-amber-100 text-amber-600 border-r-2 border-r-amber-200"
+                  : "hover:bg-amber-50 hover:text-amber-600"
+              }`}
             >
               {course}
             </p>

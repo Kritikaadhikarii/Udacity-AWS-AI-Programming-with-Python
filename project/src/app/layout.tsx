@@ -34,7 +34,7 @@ export default function RootLayout({
       >
         <Navbar />
 
-        <div className="flex-1 overflow-y-auto ml-[5%] mt-[5%]">{children}</div>
+        <div className="flex-1 overflow-y-auto mx-[5%] mt-[5%]">{children}</div>
       </body>
     </html>
   );
